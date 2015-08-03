@@ -15,8 +15,14 @@ class Board
 
   attr_accessor :board
 
-  def initialize
-    @board = Array.new(SIZE) { Array.new(SIZE) }
+  def self.create_board(size = SIZE, num_mines = SIZE)
+    board = Board.new(size)
+    board.populate(num_mines)
+    board
+  end
+
+  def initialize(size = SIZE)
+    @board = Array.new(size) { Array.new(size) }
   end
 
   def render
