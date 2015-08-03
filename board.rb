@@ -12,13 +12,21 @@ class Board
   def populate(num_mines = SIZE)
     tiles = generated_tiles(num_mines)
 
+    all_positions.each { |pos| self[pos] = tiles.shift }
+
+    nil
+  end
+
+  def all_positions
+    positions = []
+
     board.each_with_index do |row, x|
       row.each_index do |y|
-        self[[x,y]] = tiles.shift
+        positions << [x, y]
       end
     end
 
-    nil
+    positions
   end
 
   def generated_tiles(num_mines)
