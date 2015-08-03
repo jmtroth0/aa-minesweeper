@@ -1,6 +1,8 @@
+require 'byebug'
+
 class Tile
-  attr_reader :has_bomb, :has_flag, :neighbors, :neighbor_bomb_count
-  attr_accessor :revealed
+  attr_reader :has_bomb, :neighbors, :neighbor_bomb_count
+  attr_accessor :revealed, :has_flag
 
   def initialize(bomb = false)
     @has_bomb = bomb
@@ -17,8 +19,10 @@ class Tile
       "*"
     elsif neighbor_bomb_count == 0
       "_"
-    else
+    elsif !bomb?
       "#{neighbor_bomb_count}"
+    else
+      "B"
     end
   end
 
@@ -35,7 +39,9 @@ class Tile
   end
 
   def flag
-    has_flag = !has_flag
+    # debugger
+    self.has_flag = !has_flag
+    p "Flag is: #{has_flag}"
   end
 
   def reveal
