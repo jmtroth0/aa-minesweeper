@@ -20,6 +20,9 @@ class MinesweeperGame
     game_over
   end
 
+  def game_over
+    puts (board.any_exploded_bomb? ? "BOOM! Game over" : "Good job. You win.")
+  end
 
   def prompt
     puts "Where would you like to play? Enter form 'r1,2'."
