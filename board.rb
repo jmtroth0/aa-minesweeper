@@ -13,16 +13,18 @@ class Board
     [-1, -1]
   ]
 
+  attr_reader :num_mines
   attr_accessor :board
 
   def self.create_board(size = SIZE, num_mines = SIZE)
-    board = Board.new(size)
-    board.populate(num_mines)
+    board = Board.new(size, num_mines)
+    board.populate
     board
   end
 
-  def initialize(size = SIZE)
+  def initialize(size = SIZE, num_mines = SIZE)
     @board = Array.new(size) { Array.new(size) }
+    @num_mines = num_mines
   end
 
   def render
@@ -35,7 +37,7 @@ class Board
     self[pos].reveal
   end
 
-  def populate(num_mines = SIZE)
+  def populate
     tiles = generated_tiles(num_mines)
 
     all_positions.each { |pos| self[pos] = tiles.shift }
@@ -78,6 +80,18 @@ class Board
     end
 
     tiles.shuffle
+  end
+
+  def over?
+    any_exploded_bomb? || mines_swept?
+  end
+
+  def any_exploded_bomb?
+    board.flatten.any? { |tile| tile.revealed? && tile.bomb? }
+  end
+
+  def mines_swept?
+    board.flatten.reject { |tile| tile.revealed? }.count == num_mines
   end
 
   def in_range?(pos)
