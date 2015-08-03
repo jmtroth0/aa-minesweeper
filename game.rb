@@ -9,13 +9,17 @@ class MinesweeperGame
 
   def play
     until board.over?
+      system("clear")
       board.render
       option, pos = prompt
       option == 'f' ? board[pos].flag : board[pos].reveal
     end
 
+    system("clear")
+    board.render
     game_over
   end
+
 
   def prompt
     puts "Where would you like to play? Enter form 'r1,2'."
