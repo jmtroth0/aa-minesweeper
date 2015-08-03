@@ -9,6 +9,18 @@ class Tile
     @neighbor_bomb_count = nil
   end
 
+  def to_s
+    if flagged?
+      "F"
+    elsif !revealed?
+      "*"
+    elsif neighbor_bomb_count == 0
+      "_"
+    else
+      "#{neighbor_bomb_count}"
+    end
+  end
+
   def bomb?
     has_bomb
   end
