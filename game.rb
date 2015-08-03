@@ -1,18 +1,33 @@
 require_relative 'board'
+require 'yaml'
 
 class MinesweeperGame
   attr_reader :board
 
-  def initialize(board = Board.create_board)
-    @board = board
+  def initialize(file = nil, board = Board.create_board)
+    @board = file.nil? ? board : YAML.load(File.read(file))
+  end
+
+  def save
+    file = File.open("minesweeper.yaml", "w")
+    file.write(board.to_yaml)
+    file.close
   end
 
   def play
     until board.over?
       system("clear")
       board.render
+
       option, pos = prompt
-      option == 'f' ? board[pos].flag : board[pos].reveal
+      if option == "save"
+        save
+        next
+      end
+
+      return if option == "quit"
+
+      option == "f" ? board[pos].flag : board[pos].reveal
     end
 
     system("clear")
@@ -30,6 +45,7 @@ class MinesweeperGame
 
     begin
       input = gets.chomp.downcase
+      return input if ["quit", "save"].include?(input)
       parsed_input = parse(input)
       valid_check = valid_input?(parsed_input)
       puts "Enter a valid move (form 'r1,2'):" unless valid_check
