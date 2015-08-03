@@ -2,6 +2,16 @@ require_relative 'tile'
 
 class Board
   SIZE = 9
+  NEIGHBOR_OFFSETS = [
+    [1, 1],
+    [0, 1],
+    [-1, 1],
+    [1, 0],
+    [-1, 0],
+    [1, -1],
+    [0, -1],
+    [-1, -1]
+  ]
 
   attr_accessor :board
 
@@ -13,8 +23,22 @@ class Board
     tiles = generated_tiles(num_mines)
 
     all_positions.each { |pos| self[pos] = tiles.shift }
+    set_tile_neighbors
 
     nil
+  end
+
+  def set_tile_neighbors
+    all_positions.each do |x, y|
+      NEIGHBOR_OFFSETS.each do |dx, dy|
+        offset_pos = [x + dx, y + dy]
+        tile = self[[x, y]]
+
+        tile.neighbors << self[[x + dx, y + dy]] if in_range?(offset_pos)
+
+        tile.set_neighbor_bomb_count
+      end
+    end
   end
 
   def all_positions
@@ -38,6 +62,10 @@ class Board
     end
 
     tiles.shuffle
+  end
+
+  def in_range?(pos)
+    pos.all? { |coord| coord.between?(0, SIZE - 1) }
   end
 
   def [](pos)
