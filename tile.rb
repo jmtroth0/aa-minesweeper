@@ -26,7 +26,7 @@ class Tile
   end
 
   def flagged?
-    flag
+    has_flag
   end
 
   def revealed?
