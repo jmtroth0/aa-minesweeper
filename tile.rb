@@ -19,4 +19,8 @@ class Tile
   def revealed?
     revealed
   end
+
+  def reveal
+    revealed = true
+  end
 end
