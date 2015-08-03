@@ -7,4 +7,16 @@ class Tile
     @revealed = false
     @neighbors = []
   end
+
+  def bomb?
+    has_bomb
+  end
+
+  def flagged?
+    flag
+  end
+
+  def revealed?
+    revealed
+  end
 end
