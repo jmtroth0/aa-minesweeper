@@ -19,6 +19,12 @@ class Board
     @board = Array.new(SIZE) { Array.new(SIZE) }
   end
 
+  def render
+    board.each { |row| puts row.join(" ") }
+    
+    nil
+  end
+
   def populate(num_mines = SIZE)
     tiles = generated_tiles(num_mines)
 
