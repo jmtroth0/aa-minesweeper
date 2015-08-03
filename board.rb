@@ -19,4 +19,14 @@ class Board
 
     tiles.shuffle
   end
+
+  def [](pos)
+    x, y = pos
+    board[x][y]
+  end
+
+  def []=(pos, val)
+    x, y = pos
+    self.board[x][y] = val
+  end
 end
