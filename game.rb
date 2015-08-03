@@ -18,8 +18,27 @@ class MinesweeperGame
   end
 
   def prompt
+    puts "Where would you like to play? Enter form 'r1,2'."
+    print "> "
+
+    begin
+      input = gets.chomp.downcase
+      parsed_input = parse(input)
+      valid_check = valid_input?(parsed_input)
+      puts "Enter a valid move (form 'r1,2'):" unless valid_check
+    end until valid_check
+
+    parsed_input
   end
 
-  def parse
+  def valid_input?(parsed_input)
+    return false if parsed_input.nil?
+    option, position = parsed_input
+    ["r", "f"].include?(option) && board.in_range?(position)
+  end
+
+  def parse(input)
+    parsed = input.match /(\w)\s*(\d)\s*,\s*(\d)/
+    parsed.nil? ? nil : [parsed.captures[0], parsed.captures[1..2].map(&:to_i)]
   end
 end
