@@ -1,5 +1,6 @@
 class Tile
-  attr_reader :has_bomb, :has_flag, :revealed, :neighbors, :neighbor_bomb_count
+  attr_reader :has_bomb, :has_flag, :neighbors, :neighbor_bomb_count
+  attr_accessor :revealed
 
   def initialize(bomb = false)
     @has_bomb = bomb
@@ -33,8 +34,29 @@ class Tile
     revealed
   end
 
+  def flag
+    has_flag = !has_flag
+  end
+
   def reveal
-    revealed = true
+    return nil if flagged?
+
+    queue = [self]
+    already_revealed = []
+
+    until queue.empty?
+      current_tile = queue.shift
+      already_revealed << current_tile
+      current_tile.revealed = true
+
+      if neighbor_bomb_count == 0
+        neighbors.each do |neighbor|
+          queue << neighbor unless already_revealed.include?(neighbor)
+        end
+      end
+    end
+
+    nil
   end
 
   def set_neighbor_bomb_count
