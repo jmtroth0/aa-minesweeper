@@ -23,4 +23,8 @@ class Tile
   def reveal
     revealed = true
   end
+
+  def neighbor_bomb_count
+    neighbors.inject(0) { |n_bombs, neighbor| n_bombs + 1 if neighbor.bomb? }
+  end
 end
