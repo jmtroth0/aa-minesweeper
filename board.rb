@@ -21,7 +21,7 @@ class Board
 
   def render
     board.each { |row| puts row.join(" ") }
-    
+
     nil
   end
 
