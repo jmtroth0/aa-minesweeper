@@ -46,11 +46,11 @@ class Tile
 
     until queue.empty?
       current_tile = queue.shift
-      already_revealed << current_tile
       current_tile.revealed = true
+      already_revealed << current_tile
 
-      if neighbor_bomb_count == 0
-        neighbors.each do |neighbor|
+      if current_tile.neighbor_bomb_count == 0
+        current_tile.neighbors.each do |neighbor|
           queue << neighbor unless already_revealed.include?(neighbor)
         end
       end
