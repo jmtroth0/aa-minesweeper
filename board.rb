@@ -25,6 +25,10 @@ class Board
     nil
   end
 
+  def reveal(pos) #recursive
+    self[pos].reveal
+  end
+
   def populate(num_mines = SIZE)
     tiles = generated_tiles(num_mines)
 
