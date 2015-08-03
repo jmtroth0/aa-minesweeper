@@ -26,8 +26,7 @@ class Tile
   end
 
   def set_neighbor_bomb_count
-    @neighbor_bomb_count = neighbors.inject(0) do
-      |n_bombs, neighbor| n_bombs + 1 if neighbor.bomb?
-    end
+    @neighbor_bomb_count = 0
+    neighbors.each { |neighbor| @neighbor_bomb_count += 1 if neighbor.bomb? }
   end
 end
