@@ -1,5 +1,9 @@
+require_relative 'tile'
+
 class Board
   SIZE = 9
+
+  attr_accessor :board
 
   def initialize
     @board = Array.new(SIZE) { Array.new(SIZE) }
@@ -7,6 +11,14 @@ class Board
 
   def populate(num_mines = SIZE)
     tiles = generated_tiles(num_mines)
+
+    board.each_with_index do |row, x|
+      row.each_index do |y|
+        self[[x,y]] = tiles.shift
+      end
+    end
+
+    nil
   end
 
   def generated_tiles(num_mines)
